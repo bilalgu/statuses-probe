@@ -1,0 +1,21 @@
+name: post-status
+on:
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: commit sha
+        required: true
+      state:
+        description: pending, success or failure
+        required: true
+permissions:
+  statuses: write
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post commit status
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api repos/${{ github.repository }}/statuses/${{ inputs.sha }} -f state=${{ inputs.state }} -f context=review-findings -f description=probe
