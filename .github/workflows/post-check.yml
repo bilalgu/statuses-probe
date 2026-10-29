@@ -1,0 +1,30 @@
+name: post-check
+on:
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: commit sha
+        required: true
+      status:
+        description: queued, in_progress or completed
+        required: true
+      conclusion:
+        description: success or failure (empty if not completed)
+        required: false
+        default: ""
+permissions:
+  checks: write
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create check run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CONCLUSION: ${{ inputs.conclusion }}
+        run: |
+          if [ -n "$CONCLUSION" ]; then
+            gh api repos/${{ github.repository }}/check-runs -f name=review-findings -f head_sha=${{ inputs.sha }} -f status=${{ inputs.status }} -f conclusion="$CONCLUSION"
+          else
+            gh api repos/${{ github.repository }}/check-runs -f name=review-findings -f head_sha=${{ inputs.sha }} -f status=${{ inputs.status }}
+          fi

@@ -1,0 +1,12 @@
+name: reusable
+on:
+  workflow_call:
+jobs:
+  work:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+      statuses: write
+    steps:
+      - run: echo reusable ran
