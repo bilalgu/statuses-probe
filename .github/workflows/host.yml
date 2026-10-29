@@ -1,0 +1,9 @@
+name: host
+on:
+  pull_request:
+    types: [opened, synchronize, labeled]
+jobs:
+  host:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo host
