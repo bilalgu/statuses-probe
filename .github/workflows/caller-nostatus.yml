@@ -1,0 +1,9 @@
+name: caller-nostatus
+on:
+  workflow_dispatch:
+jobs:
+  call:
+    permissions:
+      contents: read
+      checks: write
+    uses: ./.github/workflows/reusable.yaml

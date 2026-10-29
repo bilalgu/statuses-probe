@@ -1,0 +1,10 @@
+name: caller-status
+on:
+  workflow_dispatch:
+jobs:
+  call:
+    permissions:
+      contents: read
+      checks: write
+      statuses: write
+    uses: ./.github/workflows/reusable.yaml
